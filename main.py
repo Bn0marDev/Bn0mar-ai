@@ -31,7 +31,16 @@ async def ask_question(request: QuestionRequest):
             model="gpt-4",  # اختر النموذج المناسب هنا (مثل GPT-4o أو غيره)
             messages=[{"role": "user", "content": question}]
         )
-        answer = response['choices'][0]['message']['content']
+        
+        # طباعة الاستجابة للتصحيح
+        print("Response:", response)
+
+        # تحقق من هيكل الاستجابة قبل الوصول إليها
+        if isinstance(response, dict) and 'choices' in response and len(response['choices']) > 0:
+            answer = response['choices'][0]['message']['content']
+        else:
+            answer = "استجابة غير صالحة من النموذج"
+
     except Exception as e:
         answer = f"حدث خطأ أثناء المعالجة: {str(e)}"
 
