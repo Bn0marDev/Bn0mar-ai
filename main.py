@@ -26,7 +26,7 @@ async def ask_question(request: QuestionRequest):
 
     # استخدام مكتبة gf4 للحصول على الإجابة
     try:
-        # إرسال السؤال إلى نموذج GPT-4 عبر gf4 مع تعليمات للنموذج ليكون لبق وفكاهي باللهجة الليبية
+        # إرسال السؤال إلى نموذج GPT-4 عبر gf4 مع تعليمات
         response = g4f.ChatCompletion.create(
             model="gpt-4o",  # اختر النموذج المناسب هنا
             messages=[{
