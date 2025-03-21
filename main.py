@@ -28,7 +28,7 @@ async def ask_question(request: QuestionRequest):
     try:
         # إرسال السؤال إلى نموذج GPT-4 عبر gf4
         response = g4f.ChatCompletion.create(
-            model="gpt-4",  # اختر النموذج المناسب هنا
+            model="gpt-4o",  # اختر النموذج المناسب هنا
             messages=[{"role": "user", "content": question}]
         )
         
