@@ -1,3 +1,4 @@
 flask
 flask_cors
 g4f
+uvicorn
