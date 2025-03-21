@@ -53,8 +53,11 @@ async def ask_question(request: QuestionRequest):
         print(f"Error: {str(e)}")
         answer = f"حدث خطأ أثناء المعالجة: {str(e)}"
 
-    # إرجاع الاستجابة كـ JSON
-    return {"response": answer}
+    # إضافة تعليمات باللهجة الليبية
+    libyan_response = f"{answer} \n\nأنا تم تطويري بواسطة Bn0mar. إذا كنت تحتاج أي مساعدة أو تواصل، تقدر تتواصل معايا عبر: \n\nتيك توك: m0usa_0mar\nفيسبوك: https://www.facebook.com/mousa.0mar"
+
+    # إرجاع الاستجابة باللهجة الليبية
+    return {"response": libyan_response}
 
 # للتشغيل المحلي
 if __name__ == "__main__":
