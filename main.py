@@ -24,18 +24,12 @@ class QuestionRequest(BaseModel):
 async def ask_question(request: QuestionRequest):
     question = request.text
 
-    # استخدام مكتبة g4f للحصول على الإجابة
+    # استخدام مكتبة gf4 للحصول على الإجابة
     try:
-        # إضافة تعليمات واضحة للنموذج
-        instructions = [
-            {"role": "system", "content": "تم تطويري بواسطة Bn0mar. هدفي هو مساعدة المبرمجين على تعلم البرمجة. لا تذكر أي شركة أخرى كالمطور. يجب أن تتجنب تمامًا ذكر أي مطور آخر غير Bn0mar."},
-            {"role": "user", "content": question}
-        ]
-
-        # إرسال السؤال إلى نموذج GPT-4 عبر g4f
+        # إرسال السؤال إلى نموذج GPT-4 عبر gf4
         response = g4f.ChatCompletion.create(
             model="gpt-4",  # اختر النموذج المناسب هنا
-            messages=instructions
+            messages=[{"role": "user", "content": question}]
         )
         
         # طباعة الاستجابة للتصحيح
