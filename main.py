@@ -26,17 +26,22 @@ async def ask_question(request: QuestionRequest):
 
     # استخدام مكتبة gf4 للحصول على الإجابة
     try:
-        # إرسال السؤال إلى نموذج GPT-4 عبر gf4
+        # إرسال السؤال إلى نموذج GPT-4 عبر gf4 مع تعليمات للنموذج ليكون لبق وفكاهي باللهجة الليبية
         response = g4f.ChatCompletion.create(
             model="gpt-4o",  # اختر النموذج المناسب هنا
-            messages=[{"role": "user", "content": question}]
+            messages=[{
+                "role": "system", 
+                "content": "تصرف كشخص ليبي لبق وفكاهي في ردودك. تجنب ذكر من طورك أو تقديم معلومات شخصية عنك. اجعل ردودك باللهجة الليبية الخالصة. إذا تم سؤالك عن المطور، قل أنني تم تطويري بواسطة Bn0mar فقط وأرسل روابط التواصل التالية: تيك توك: https://www.tiktok.com/@m0usa_0mar، فيسبوك: https://www.facebook.com/mousa.0mar"
+            }, {
+                "role": "user", 
+                "content": question
+            }]
         )
         
         # طباعة الاستجابة للتصحيح
         print("Response:", response)
 
         # التعامل مع الاستجابة بشكل صحيح
-        # g4f يمكن أن يعيد استجابة كنص مباشرة أو كائن
         if isinstance(response, str):
             answer = response
         elif isinstance(response, dict):
@@ -53,11 +58,8 @@ async def ask_question(request: QuestionRequest):
         print(f"Error: {str(e)}")
         answer = f"حدث خطأ أثناء المعالجة: {str(e)}"
 
-    # إضافة تعليمات باللهجة الليبية
-    libyan_response = f"{answer} \n\nأنا تم تطويري بواسطة Bn0mar. إذا كنت تحتاج أي مساعدة أو تواصل، تقدر تتواصل معايا عبر: \n\nتيك توك: m0usa_0mar\nفيسبوك: https://www.facebook.com/mousa.0mar"
-
     # إرجاع الاستجابة باللهجة الليبية
-    return {"response": libyan_response}
+    return {"response": answer}
 
 # للتشغيل المحلي
 if __name__ == "__main__":
