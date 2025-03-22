@@ -59,16 +59,25 @@ async def ask_question(request: QuestionRequest):
 
     # استخدام مكتبة gf4 للحصول على الإجابة
     try:
-        # إرسال السؤال إلى نموذج GPT-4-turbo عبر gf4 مع تعليمات
+        async with AsyncSessionLocal() as session:
+            async with session.begin():
+                # استرجاع المحادثات السابقة لهذا المستخدم
+                result = await session.execute(sqlalchemy.select(Conversation).filter_by(user_id=user_id))
+                conversations = result.scalars().all()
+                conversation_history = [
+                    {"role": "user", "content": conv.question} for conv in conversations
+                ] + [
+                    {"role": "assistant", "content": conv.answer} for conv in conversations
+                ]
+
+        # إرسال السؤال إلى نموذج Qwen عبر gf4 مع تعليمات
         response = g4f.ChatCompletion.create(
-            model="gpt-4-turbo",  # استخدام النموذج المحدّث
-            messages=[{
-                "role": "system", 
-                "content": "انت Bn0mar-ai طورك M0usaBn0ar على فهم والتكلم باللهجة الليبية وطورك لغرض مساعدة المستخدمين لحل مختلف المشاكل."
-            }, {
-                "role": "user", 
-                "content": question
-            }]
+            model="qwen-large",  # استخدام النموذج المحدّث
+            messages=[
+                {"role": "system", "content": "انت Bn0mar-ai طورك M0usaBn0ar على فهم والتكلم باللهجة الليبية وطورك لغرض مساعدة المستخدمين لحل مختلف المشاكل."}
+            ] + conversation_history + [
+                {"role": "user", "content": question}
+            ]
         )
         
         # طباعة الاستجابة للتصحيح
