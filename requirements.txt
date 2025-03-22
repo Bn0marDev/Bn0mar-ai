@@ -4,3 +4,4 @@ g4f
 sqlalchemy
 asyncpg
 uuid
+psycopg2
