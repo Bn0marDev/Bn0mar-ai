@@ -3,3 +3,4 @@ uvicorn
 g4f
 sqlalchemy
 asyncpg
+uuid
