@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 # إعدادات قاعدة البيانات
-DATABASE_URL = "postgresql://bn0mar_user:y9fKA7iXH2cNSgdj8Ic9RAjqSLHIG5gF@dpg-cvf5m43qf0us73fm54tg-a/bn0mar"
+DATABASE_URL = "postgresql+asyncpg://bn0mar_user:y9fKA7iXH2cNSgdj8Ic9RAjqSLHIG5gF@dpg-cvf5m43qf0us73fm54tg-a/bn0mar"
 
 Base = declarative_base()
 
@@ -74,7 +74,7 @@ async def ask_question(request: QuestionRequest):
         response = g4f.ChatCompletion.create(
             model="qwen-large",  # استخدام النموذج المحدّث
             messages=[
-                {"role": "system", "content": "انت Bn0mar-ai طورك M0usaBn0ar على فهم والتكلم باللهجة الليبية وطورك لغرض مساعدة المستخدمين لحل مختلف المشاكل."}
+                {"role": "system", "content": "انت Bn0mar-ai طورك M0usaBn0ar على فهم والتكلم باللهجة الليبية وطورك لغرض مساعدة المستخدمين[...]"}
             ] + conversation_history + [
                 {"role": "user", "content": question}
             ]
